@@ -31,7 +31,7 @@ tcpServer = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 tcpServer.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1) 
 tcpServer.bind((ip, port))
 
-print 'Server ready to listen on (%s:%d)' %(ip, port)
+print 'NW ready to listen on (%s:%d)' %(ip, port)
 while True: 
     tcpServer.listen(4) 
     (conn, (cliIP,cliPort)) = tcpServer.accept() 
@@ -39,5 +39,5 @@ while True:
     raw_message = conn.recv(1024)
     message, dest_id = parseMessage(raw_message)
     print("message received in NW: " + message)
-    newReplyThread = reply_thread.DelayedReplyThread(dest_id)
+    newReplyThread = reply_thread.DelayedReplyThread(dest_id, message)
     newReplyThread.start()

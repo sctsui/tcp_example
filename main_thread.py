@@ -25,7 +25,8 @@ class InputThread(Thread):
             elif pId not in config["processes"]:
                 print 'Invalid entry! Please enter a valid datacenter.'
                 continue
-            destPidQueue.append(pId)
+            message = raw_input("Enter message to send:")
+            destPidQueue.append((pId,message))
 
 class ProcessThread(Thread): 
     def __init__(self): 
@@ -36,8 +37,9 @@ class ProcessThread(Thread):
         while True:
             while destPidQueue:
                 nw_ip, nw_port = config["processes"]["NW"][0], config["processes"]["NW"][1]
-                recvMsg = "hello"
-                dest_id = destPidQueue.pop(0)
+                destMsgTup = destPidQueue.pop(0)
+                dest_id = destMsgTup[0]
+                recvMsg = destMsgTup[1]
                 print "global Pid in process thread = " + dest_id
                 self.sendTcpMsg(nw_ip,nw_port, dest_id, recvMsg)
 
