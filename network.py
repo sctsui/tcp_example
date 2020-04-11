@@ -15,6 +15,11 @@ selfDcId = sys.argv[1]
 
 dcInfo= {'dc_name':selfDcId.upper()}
 
+def parseMessage(raw_message):
+    s = raw_message.split(';')
+    message = s[0]
+    dest = s[1]
+    return message, dest
 
 ######################################## Main ################################################
 
@@ -31,8 +36,8 @@ while True:
     tcpServer.listen(4) 
     (conn, (cliIP,cliPort)) = tcpServer.accept() 
 
-    message = conn.recv(1024)
-    print("message received: " + message)
-
-    newReplyThread = reply_thread.DelayedReplyThread()
+    raw_message = conn.recv(1024)
+    message, dest_id = parseMessage(raw_message)
+    print("message received in NW: " + message)
+    newReplyThread = reply_thread.DelayedReplyThread(dest_id)
     newReplyThread.start()

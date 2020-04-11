@@ -11,12 +11,13 @@ with open('process_config.json') as config_file:
 
 class CommThread(Thread): 
 
-    def __init__(self): 
+    def __init__(self,proc_id): 
 	    Thread.__init__(self) 
+            self.proc_id = proc_id
 
     def run(self): 
         print "running communication thread"
-        pIp, pPort = config["processes"]["P1"][0], config["processes"]["P1"][1]
+        pIp, pPort = config["processes"][self.proc_id][0], config["processes"][self.proc_id][1]
         tcpServer = socket.socket(socket.AF_INET, socket.SOCK_STREAM) 
         tcpServer.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1) 
         tcpServer.bind((pIp, pPort))

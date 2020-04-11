@@ -11,13 +11,14 @@ with open('process_config.json') as config_file:
 
 class DelayedReplyThread(Thread): 
 
-    def __init__(self): 
+    def __init__(self,procId): 
 	    Thread.__init__(self) 
+            self.procId = procId 
 
     def run(self): 
         recvMsg = "hello from nw"
         print "running delayed reply thread"
-        dest_ip, dest_port = config["processes"]["P1"][0], config["processes"]["P1"][1] #todo replace p1 with dest id
+        dest_ip, dest_port = config["processes"][self.procId][0], config["processes"][self.procId][1] #todo replace p1 with dest id
         self.sendTcpMsg(dest_ip,dest_port, recvMsg)
 
     def sendTcpMsg(self, ip, port, msg):
