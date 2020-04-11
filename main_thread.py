@@ -5,6 +5,7 @@ import time
 import asyncore
 import json, sys
 import process_thread
+import comm_thread
 
 with open('process_config.json') as config_file:    
     config = json.load(config_file)
@@ -24,6 +25,9 @@ while True:
     
     newthread = process_thread.ProcessThread() 
     newthread.start()
+
+    newCommThread = comm_thread.CommThread()
+    newCommThread.start()
 
 
     #ip, port = config["processes"][pId][0], config["processes"][pId][1]

@@ -6,6 +6,7 @@ import threading
 import json, sys
 import logging
 import sys
+import reply_thread
 
 
 with open('process_config.json') as config_file:    
@@ -32,3 +33,6 @@ while True:
 
     message = conn.recv(1024)
     print("message received: " + message)
+
+    newReplyThread = reply_thread.DelayedReplyThread()
+    newReplyThread.start()
